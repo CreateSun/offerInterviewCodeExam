@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>目录</title>
+</head>
+
+<body>
+    <details>
+        <summary>
+            基础知识
+        </summary>
+        <ol>
+            <li>http与https</li>
+            <li>网络模型</li>
+            <li>get与post</li>
+
+        </ol>
+    </details>
+    <details>
+        <summary>
+            JS部分
+        </summary>
+        <ol>
+            <li>JS垃圾回收机制</li>
+            <li>手写Promise</li>
+            <li>发布-订阅模式</li>
+            <li>观察者模式</li>
+            <li>双向数据绑定</li>
+            <li>React基础</li>
+            <li>深拷贝与浅拷贝</li>
+            <li>JS实现数据结构</li>
+            <li>箭头函数与普通函数</li>
+        </ol>
+    </details>
+    <details>
+        <summary>
+            H5与CSS
+        </summary>
+        <ol>
+            <li>清除浮动</li>
+        </ol>
+        <img src="" alt="" srcset="">
+    </details>
+
+</body>
+<script>
+    let obj = {
+        username: "Mark",
+        effect1: function() {
+            console.log("my username is "+ this.username)
+            return () => {
+                console.log(this)
+            }
+        },
+        effect() {
+            console.log("my username is "+ this.username)
+            return () => {
+                console.log(this)
+            }
+        }
+    }
+    console.log(obj)
+    obj.effect()()
+    obj.effect1()()
+</script>
+
+</html>

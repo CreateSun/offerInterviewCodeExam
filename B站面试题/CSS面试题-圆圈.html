@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <style>
+        * {
+            margin: 0;
+        }
+        body, html {
+            width: 100%;
+            height: 100%;
+            display: flex;
+        }
+        .circle {
+            margin: auto;
+            width: 500px;
+            height: 500px;
+            border-style: solid;
+            border-radius: 50%;
+            border-width: 10px;
+            text-align: center;
+        }
+        .circle-box {
+            line-height: 500px;
+            font-size: 5rem;
+            border-color: #CCC;
+            position: relative;
+        }
+        .mask {
+            border-color: #CCC;
+            position: absolute;
+            top: -10px;
+            left: -10px;
+            border-right-color: transparent;
+            width: 250px;
+            border-radius:500px 0 0 500px;
+            z-index: 10;
+        }
+        .red {
+            position: absolute;
+            top: -10px;
+            right: -10px;
+            border-color: red;
+        }
+        .red::before, .red::after {
+            position: absolute;
+            content: "";
+            width: 12px;
+            height: 10px;
+            border-radius: 50%;
+            background-color: red;
+            z-index: 11;
+        }
+        .red::before {
+            top: -10px;
+            /* left: -10px; */
+        }
+        .red::after {
+            bottom: -10px;
+            /* left: -10px; */
+        }
+    </style>
+        <div class="circle circle-box">
+                <span>2/4</span>
+                <div class="circle mask"></div>
+                <div class="circle red"></div>
+        </div>
+</body>
+</html>

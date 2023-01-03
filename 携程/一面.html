@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <style>
+        .red {
+            background-color: brown;
+        }
+
+        .son {
+            position: relative;
+            top: 100%;
+        }
+    </style>
+
+    <div style="float:left;width:100px;border: solid 1px red;margin-right:50px;">floated</div>
+    <div style="width:200px;border: solid 1px blue;margin-left:100px;overflow:hidden;">gen new BFC balabala</div>
+
+    <div style="float:left;width:100px;border: solid 1px red;margin-bottom:50px;">floated</div>
+    <div style="width:200px;border: solid 1px blue;margin-top:100px;overflow:hidden;">gen new BFC balabala</div>
+</body>
+<script type="module">
+    import A, { B } from "./A.js"
+    let a = [[3,3,3], [2,2]]
+    console.log(a.indexOf([3,3,3]))
+    console.log(a)
+    console.log(a.includes([3,3,3]))
+</script>
+
+</html>

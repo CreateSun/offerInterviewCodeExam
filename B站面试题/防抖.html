@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <input type="button" value="支付">
+    <script>
+        const btn = document.querySelector('input')
+        function payMoney() {
+            console.log('支付');
+            // console.log(this)
+        }
+        function debounce(func, delay) {
+            let timer;
+            return function() {
+                let context = this;
+                let args = arguments;
+                console.log("清除计时器")
+                clearTimeout(timer)
+                console.log("重新计时")
+                timer = setTimeout(() => {
+                    func.apply(context, args)
+                }, delay)
+            }
+        }
+        btn.addEventListener('click', debounce(payMoney, 1000))
+    </script>
+</body>
+</html>

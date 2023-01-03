@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <main>
+        <p>执行栈每次只能执行一个程序，setInterval的作用是每隔一段时间将任务放入任务队列中</p>
+    </main>
+    <script>
+        function newINterval(func, millisecond) {
+            function inside() {
+                func()
+                setInterval(inside, millisecond)
+            }
+            setInterval(inside, millisecond)
+        }
+        newINterval(like, 1000)
+        function like() {
+            console.log('定时器');
+        }
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        // 找到相乘最多能有几位0 
+        let arr = [10, 2, 3, 4]
+        let calArr = []
+        for (let i = 0; i < arr.length - 2; i++) {
+            const e = arr[i]
+            console.log("current value: " + e)
+            arr.slice(i+2).forEach(v => {
+                console.log("cal " + e +" * "+ v + " = " + e*v)
+                calArr.push(calZero(JSON.stringify(e*v)))
+            })
+        }
+        console.log(Math.max(...calArr))
+        function calZero(str) {
+            let times = 0
+            str.split("").forEach(i => {
+                i==="0"? times++:null
+            })
+            return times
+        }
+        
+
+    </script>
+</body>
+
+</html>

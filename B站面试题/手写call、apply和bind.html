@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<style>
+    /* css */
+.container{
+  height: 400px;
+  background-color: pink;
+  display: flex;
+}
+.left,.right{
+  width: 200px;
+  background-color: yellow;
+}
+.center{
+  flex: 1;
+  background-color: blue;
+}
+.header, .footer{
+  height: 60px;
+  width: 100%;
+  background-color: pink;
+}
+</style>
+
+<body>
+    <div class="header"></div>
+    <div class="container">
+        <div class="left"></div>
+        <div class="center"></div>
+        <div class="right"></div>
+    </div>
+    <div class="footer"></div>
+    <script>
+        let egg = {
+            name: "崔雨"
+        }
+        function person(a, b, c) {
+            // console.log(arguments)
+            console.log(this.name, a, b, c)
+        }
+        person.prototype.power = '充电'
+        Function.prototype.newCall = function (object) {
+            let obj = object || window
+            obj.p = this
+            let args = []
+            for (let i = 1; i < arguments.length; i++) {
+                args.push(arguments[i])
+            }
+            let res = obj.p(...args)
+            delete obj.p
+            return res
+        };
+        person.newCall(egg, 'Marry', 'Jack', 'Mark')
+        Function.prototype.newApply = function (object, arr) {
+            let obj = object || window
+            obj.p = this
+            let res = null
+            if (arr) {
+                res = obj.p()
+            } else {
+                let args = []
+                for (let i = 1; i < arguments.length; i++) {
+                    args.push(arguments[i])
+                }
+                res = obj.p(...args)
+            }
+            delete obj.p
+            return res
+        }
+        Function.prototype.newBind = function (obj) {
+            if (typeof this != 'function') {
+                throw new Error("错误的数据类型")
+            }
+            let that = this
+            arr = Array.prototype.slice.call(arguments, 1)
+            o = function () { }
+            returnFunc = function () {
+                let arr2 = Array.prototype.slice.call(arguments)
+                if (this instanceof returnFunc) {
+                    that.call(this, ...(arr.concat(arr2)))
+                } else {
+                    that.call(obj, ...(arr.concat(arr2)))
+                }
+            }
+            o.prototype = that.prototype
+            returnFunc.prototype = new o
+            return returnFunc
+        }
+        // let a = person.newBind(egg, '点赞', '收藏')
+        // a('充电')
+        // let b = new a('投币')
+        // console.log(b.power)
+    </script>
+</body>
+
+</html>

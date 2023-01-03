@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        /**
+         * @Param income： 截至当月的全年收入
+         * month 当前月份
+         * return 累计应缴
+         */
+        function getAllShouldTax(income, month) {
+            income = parseFloat((income - 5000 * month)/100) // 减去免征额度
+            let allShouldPay = 0
+            if (income < 360) { allShouldPay = income*3 }
+            else if (income > 360 && income < 1440) {
+                allShouldPay = 360 * 3 + (income - 360) * 10
+            }
+            else if (income > 1440 && income < 3000) {
+                allShouldPay = 360 * 3 + (1440 - 360) * 10 + (income - 1440) * 20
+            }
+            else if (income > 3000 && income < 4200) {
+                allShouldPay = 360 * 3 + (1440 - 360) * 10 + (3000 - 1440) * 20 + (income - 3000) * 25
+            }
+            else if (income > 4200 && income < 6600) {
+                allShouldPay = 360 * 3 + (1440 - 360) * 10 + (3000 - 1440) * 20 + (4200 - 3000) * 25 + (income - 4200) * 30
+            }
+            else if (income > 6600 && income < 9600) {
+                allShouldPay = 360 * 3 + (1440 - 360) * 10 + (3000 - 1440) * 20 + (4200 - 3000) * 25 + (6600 - 4200) * 30 + (income - 6600) * 35
+            }
+            else {
+                allShouldPay = 360 * 3 + (1440 - 360) * 10 + (3000 - 1440) * 20 + (4200 - 3000) * 25 + (6600 - 4200) * 30 + (9600 - 6600) * 35 + (income - 9600) * 45
+            }
+        return parseFloat(allShouldPay)
+        }
+
+        function calcTax(incomeList) {
+            let allIncome = 0 // 累计收入
+            let alreadyPay = 0 // 累计缴费
+            const shouldPayList = incomeList.map((income, index) => {
+                allIncome += income; // 累加至总收入
+                const allShouldPay = getAllShouldTax(allIncome, index + 1) // 计算截至当月的全年应缴税额
+                const currShouldPay = allShouldPay - alreadyPay
+                alreadyPay += currShouldPay
+                console.log(`${index + 1}月收入: ${income}, 累计缴费: ${alreadyPay}, 全年应缴: ${allShouldPay}, 当月应缴: ${currShouldPay}`)
+                return currShouldPay.toFixed(2)
+            });
+            return shouldPayList
+        }
+
+        let incomeList = [10000.00, 10000.00, 10000.00, 10000.00, 10000.00, 10000.00, 10000.00, 10000.00, 10000.00, 10000.00, 10000.00, 10000.00]
+        console.log(calcTax(incomeList))
+    </script>
+</body>
+
+</html>

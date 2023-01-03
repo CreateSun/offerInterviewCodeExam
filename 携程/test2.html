@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        let arr = [0,0,1,2]
+        let fruitList = arr.slice(0, 2)
+        let NO1_value = parseInt(arr[2])
+        let NO2_value = parseInt(arr[3])
+
+        let combo = {
+            apple: fruitList[0],
+            banana: fruitList[1],
+        }
+        let NO1 = 0, NO2 = 0
+        if (NO1_value > NO2_value) {
+            NO1 = calGift(combo, 2, 1, NO1) // 一号组合
+            NO2 = calGift(combo, 1, 2, NO2) // 二号组合
+        } else {
+            NO2 = calGift(combo, 1, 2, NO2) // 二号组合
+            console.log("二号大礼包"+NO2)
+            NO1 = calGift(combo, 2, 1, NO1) // 一号组合
+
+        }
+
+        console.log(NO1*NO1_value + NO2*NO2_value)
+
+        function calGift(combo, apple,banana, times) {
+            while (true) { // 计算一号大礼包
+                if (combo.apple - apple >= 0 && combo.banana - banana >= 0) {
+                    times++
+                    combo.apple = combo.apple - apple;
+                    combo.banana = combo.banana - banana;
+                } else {
+                    return times
+                }
+            }
+            return times
+        }
+    </script>
+</body>
+
+</html>

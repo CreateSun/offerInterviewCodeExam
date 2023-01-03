@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        let arr = [
+            {name: '轮子妈', age: 18},
+            {name: '刀妹', age: 28},
+            {name: '艾希', age: 19},
+            {name: '波比', age: 16}
+        ]
+        let func = (name) => ele => ele[name]
+        let func_1 = func('name')
+        // console.log(arr.map(item => func_1(item)))
+
+        let add = (...args)=> {
+            console.log(args)
+        }
+        let addg = (...num) => {
+            console.log(num)
+        }
+
+        // console.log(addg())
+        // console.log(addg(2))
+        console.log(addg(2)()(3))
+    </script>
+</body>
+</html>

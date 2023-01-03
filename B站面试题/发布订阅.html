@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        class Subscriber {
+            constructor(publisher, msg, handler) {
+                this.publisher = publisher
+                this.message = msg
+                this.handler = handler
+            }
+        }
+        // 订阅者
+        class Subscribe {
+            constructor(name = 'subscriber') {
+                this.name = name
+                this.subList = [] // 订阅关系<订阅目标， 订阅消息， 处理方法>列表
+            }
+            /**订阅
+             * 
+             * @param {Object} 
+             */
+            listen(subscriber) {
+                //添加到publisher的察者列表或者观消息订阅者列表
+                //*************************************************
+                //************问题1:应该怎么添加呢？****************
+                //*************************************************
+                // let sub_item = new Subscriber(publisher, message, handler)
+                this.subList.push(subscriber) // 存储当前订阅关系
+                subscriber.publisher.addListener(subscriber) // 发送订阅消息到对应的发布者
+            }
+            /**取消订阅
+             * 
+             * @param {Publisher} publisher 发布者
+             * @param {String} message 消息
+             */
+            unlisten(publisher, message) {
+                //取消对publisher消息订阅 
+                //*************************************************
+                //************问题2:应该怎么取消呢？****************
+                //*************************************************
+            }
+        }
+
+        // 发布者
+        class Publish {
+            constructor(name = 'publisher') {
+                this.messageMap = {} //消息事件订阅者集合对象 <Message:String, Array:Subscriber>
+                this.watcherList = [] //观察者列表
+                this.name = name
+            }
+            /**发布消息通知
+             * 
+             * @param {String} message 消息
+             * @param {Object} info 内容
+             */
+            publish(message, info) {
+                //1、通知观察者列表
+                //2、通知对应消息下的订阅者列表
+                let messageMap = this.messageMap
+                Object.keys(messageMap).forEach(key => {
+                    if (key == message) {
+                        // debugger
+                        messageMap[key].forEach( subscriber => {
+                            subscriber.handler(info)
+                        })
+                    }
+                })
+            }
+            /**添加消息订阅者
+             * 
+             * @param {Subscribe} subscriber 订阅者
+             * @param {String} message 消息
+             */
+            addListener(subscriber) {
+                let message = subscriber.message
+                //一通操作，把subscriber添加到对应列表
+                if (!this.messageMap[message]) {
+                    this.messageMap[message] = []
+                }
+                this.messageMap[message].push(subscriber)
+            }
+            /**删除消息订阅者
+             * 
+             * @param {Subscribe} subscriber 
+             * @param {String} message 
+             */
+            removeListener(subscriber, message) {
+                //一通操作，再把subscriber从对应列表移除
+            }
+        }
+
+        let sub = new Subscribe("sub_central")
+        let pub = new Publish("pub_central")
+        // let user = new Subscriber(pub, "msg", (info) => {
+        //     console.log("Recive info success: ", info)
+        // })
+        let obja = {
+            msg: "",
+            notify: function () {
+                return new Subscriber(pub, "updateMsg", (info) => {
+                    this.msg = info
+                    console.log(this)
+                })
+            }
+        }
+        // sub.listen(user)
+        // pub.publish("msg", "Hello everyone, I'm publish central.")
+        sub.listen(obja.notify())
+        pub.publish("updateMsg", "Whoo, This is first update for msg.")
+
+        /**
+         * 观察者模式
+         */
+        function observe(data) {
+            if (!data || typeof data !== 'object') {
+                return;
+            }
+            // 取出所有属性遍历
+            Object.keys(data).forEach(function (key) {
+                defineReactive(data, key, data[key]);
+            });
+        };
+
+        function defineReactive(data, key, val) {
+            observe(val); // 监听子属性
+            Object.defineProperty(data, key, {
+                enumerable: true, // 可枚举
+                configurable: false, // 不能再define
+                get: function () {
+                    return val;
+                },
+                set: function (newVal) {
+                    console.log('哈哈哈，监听到值变化了 ', val, ' --> ', newVal);
+                    val = newVal;
+                }
+            });
+        }
+
+        var data = { name: 'kindeng' };
+        // observe(data);
+        // data.name = 'dmq'; // 哈哈哈，监听到值变化了 kindeng --> dmq
+
+    </script>
+</body>
+
+</html>

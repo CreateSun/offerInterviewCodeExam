@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        function getSubStr(s) {
+            const subStr = []
+            const len = s.length
+            let i = 1
+            while(i<=len) {
+                for(let cursor = 0; cursor < len; ) {
+                    const str = s.substr(cursor, i)
+                    subStr.indexOf(str) > -1 ? null : subStr.push(str)
+                    cursor+=i
+                }
+                i++;
+            }
+            return subStr
+        }
+        function maxLengthBetweenEqualCharacters(s) {
+            const noRepeatList = getSubStr(s)
+            let count = -1
+            noRepeatList.forEach(ele => {
+                const currStr= ele
+                // console.log(`${currStr} distance between ${s.lastIndexOf(currStr)} and ${s.indexOf(currStr)}`)
+                count = Math.max(count, s.lastIndexOf(currStr) - s.indexOf(currStr) - 1)
+            })
+        }
+        maxLengthBetweenEqualCharacters("dskj")
+    </script>
+</body>
+</html>

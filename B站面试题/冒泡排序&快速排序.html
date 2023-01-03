@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        let arr = [2, 34, 56, 12, 78, 666, 24, 345, 456, 66]
+        function bubbleSort(arr) {
+            if (arr.constructor.name === 'Array') {
+                let len = arr.length
+                // let newArr = []
+                for (let i = 0; i < len; i++) {
+                    for (let j = i + 1; j < len; j++) {
+                        if (arr[i] > arr[j]) {
+                            let temp = arr[i]
+                            arr[i] = arr[j]
+                            arr[j] = temp
+                        }
+                    }
+                }
+                return arr
+            }
+            else {
+                throw '必须为数组'
+            }
+        }
+        console.group('冒泡排序：', bubbleSort(arr))
+        console.groupEnd()
+        function quickSort(arr) {
+            if (arr.length <= 1) return arr;
+            const pivot = arr[0]; // 设立枢轴
+            let left = [], right = []; // 枢轴左右侧元素分别建立数组
+            for (let i = 1; i < arr.length; i++) { // 遍历当前数组，将元素筛选入左、右数组中
+                if (arr[i] <= pivot) left.push(arr[i]);
+                else right.push(arr[i]);
+            }
+            return quickSort(left).concat([pivot], quickSort(right));  // 按照 小-中-大 的方式返回数组，小、大数组继续递归进行排序
+        }
+        console.log(quickSort(arr))
+    </script>
+</body>
+
+</html>

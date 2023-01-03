@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        /**
+         * 函数本质是  直接选择排序
+         * 
+         * */
+        function getTop(arr, n) {
+            var len = arr.length
+            if (len <= n) {
+                return arr
+            }
+            var temp = getHead(arr, n)
+            for (var i = n; i < len; i++) {
+                if (arr[i] < temp[n - 1]) {
+                    continue
+                }
+                for (var j = 0; j < n; j++) {
+                    if (arr[i] > temp[j]) {
+                        temp.splice(j, 1, arr[i])
+                        break
+                    }
+                }
+            }
+            return temp.slice(0, n)
+        }
+        // 辅助函数，获取arr中前n个数(倒序)
+        function getHead(arr, n) {
+            return arr.slice(0, 10).sort(function (a, b) {
+                return b - a
+            })
+        }
+        // 测试，随机0到200w的数，共100万个，获取前10大的数平均5ms，前100大的数在2000ms左右
+        for (var j = 0; j < 5; j++) {
+            var arr = []
+            for (var i = 0; i < 1000000; i++) {
+                arr.push(Math.floor(Math.random() * 2000000))
+            }
+            console.time('getTop')
+            console.log(getTop(arr, 10))
+            console.timeEnd('getTop')
+        }
+    </script>
+
+    <div></div>
+</body>
+
+</html>

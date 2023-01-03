@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        // 多项式数组相加  通过率60%
+        function addPolynomial(poly1, poly2) {
+            // write code here
+            let len1 = poly1.length
+            let len2 = poly2.length
+            let longPoly, shortPoly
+            if (len1 > len2) { longPoly = poly1, shortPoly = poly2 }
+            else { longPoly = poly2, shortPoly = poly1 }
+            let Maxlen = longPoly.length
+            let len = Maxlen
+            while (len > 0) {
+                let item = longPoly.pop()
+                console.log(`弹出元素: [ ${item} ], remains: ${longPoly}`)
+                let itemFromShort = -1
+                for (let i = 0; i < (len1 + len2) - Maxlen; i++) {
+                    if (shortPoly[i][1] == item[1]) {
+                        itemFromShort = i
+                    }
+                }
+                if (itemFromShort != -1) { // 找到已有元素
+                    console.log(`[${shortPoly[itemFromShort]}] add [${item}]`)
+                    shortPoly[itemFromShort][0] += item[0]
+                } else { // 未找到
+                    console.log(`push new element: [${item}]`)
+                    shortPoly.push(item)
+                }
+                len--
+            }
+            for(let i = 0; i < shortPoly.length; i++) {
+                for(let j = i+1; j<shortPoly.length; j++) {
+                    if(shortPoly[i][1] < shortPoly[j][1]) {
+                        let temp = shortPoly[i]
+                        shortPoly[i] = shortPoly[j]
+                        shortPoly[j] = temp
+                    }
+                }
+            }
+            return shortPoly
+        }
+        let martix = [[4, 5], [3, 6], [2, 11], [8, 1]]
+        // let martix2 = [[3, 4] , [3, 6], [2, 11], [8, 1]]
+        let martix2 = [[3, 4], [3, 6]]
+        console.log(addPolynomial(martix, martix2))
+    </script>
+</body>
+
+</html>

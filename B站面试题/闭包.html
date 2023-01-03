@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        function func() {
+            a = 10;
+            let b = 20;
+            var c = 30;
+            function inner() {
+                console.log(b)
+                console.log(this)
+            }
+            inner()
+        }
+        func()
+        var Counter = (function () {
+            var privateCounter = 0;
+            function changeBy(val) {
+                privateCounter += val;
+            }
+            return {
+                increment: function () {
+                    changeBy(1);
+                },
+                decrement: function () {
+                    changeBy(-1);
+                },
+                value: function () {
+                    return privateCounter;
+                }
+            }
+        })();
+
+        function makeCounter() {
+            return Counter
+        }
+
+        var Counter1 = makeCounter();
+        var Counter2 = makeCounter();
+        console.log(Counter1.value()); /* logs 0 */
+        Counter1.increment();
+        Counter1.increment();
+        console.log(Counter1.value()); /* logs 2 */
+        Counter1.decrement();
+        console.log(Counter1.value()); /* logs 1 */
+        console.log(Counter2.value()); /* logs 0 */
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        let arr = [3, 3, 2, 3, 13, 13, 13, 2, 11, 11, 11, 11, 225]
+        let sameArr = []
+        let str = ""
+        for (let index = 0; index < arr.length; index++) {
+            let res = foreach(index, arr)
+            if (res.length > 1) { 
+                sameArr.push(res)
+                index += res.length - 1
+                str += `${arr[index]}(${res.length}) `
+             } else {
+                 str += `${arr[index]} `
+              };
+        }
+        console.log(sameArr)
+        console.log(str.substring(0, str.length-1))
+
+        function foreach(i, arr) {
+            let temp = []
+            for (let index = i; index < arr.length; index++) {
+                if (arr[index] === arr[index + 1]) {
+                    temp.push(index)
+                }
+                else {
+                    temp.push(index)
+                    return temp
+                }
+            }
+        }
+        
+    </script>
+</body>
+
+</html>

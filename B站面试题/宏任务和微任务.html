@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <main>
+        <h1>宏任务和微任务</h1>
+        <em>JS是单线程，只有一个任务调用栈，先入后出，一次只能执行一个任务，允许嵌套。</em>
+        <p>同步任务会被立即执行，异步任务会被分为宏任务与微任务，放入不同的队列中</p>
+        <h2>宏任务</h2>
+        <ol>
+            <li>新程序或子程序被执行</li>
+            <li>回调函数</li>
+            <li>setTimeout和setInterval、setImmediate</li>
+            <li>requestAnimationFrame</li>
+            <li>I/O操作</li>
+            <li>UI rendering </li>
+        </ol>
+        <h2>微任务</h2>
+        <ol>
+            <li>Promise .then() .catch() .finally() </li>
+            <li>MutationObserver</li>
+            <li>Object.observe</li>
+            <li>process.nextTick()</li>
+        </ol>
+        <h3>事件运行核心：Event Loop</h3>
+        <em><strong>执行顺序</strong>：同步任务 -> 微任务 -> 宏任务</em>
+    </main>
+</body>
+<script>
+    var model = {};
+
+    // 然后我们对他进行观察
+    Object.observe(model, function (changes) {
+
+        // 这个异步毁掉函数将会运行
+        changes.forEach(function (change) {
+
+            // 让我们获知变化
+            console.log(change.type, change.name, change.oldValue);
+        });
+
+    });
+    model.name = "Jack"
+</script>
+
+</html>

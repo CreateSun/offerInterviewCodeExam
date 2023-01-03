@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+
+</body>
+<script>
+    class Woman {
+        constructor(name, info) {
+            this.sex = "male"
+            this.name = name
+            this.husband = null
+            this.info = info
+        }
+        set age(v) {
+            this.info.age = age
+        }
+        get age() {
+            if (this.info.age) return this.info.age
+            else {
+                throw 'This woman have no age until now.'
+                return ""
+            }
+        }
+    }
+    let Rose = new Woman("Rose", { x: "36E", school: '实验小学' })
+    console.log(Rose)
+</script>
+
+</html>

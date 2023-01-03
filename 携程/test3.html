@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        let NUM = (c) => c.charCodeAt()
+        let calDistance = (a, b) => {
+            a = NUM(a), b = NUM(b)
+            let big = Math.max(a, b)
+            let small = Math.min(a, b)
+            let distanceA = big-small
+            let distanceB = ( NUM('z') - big ) + ( small - NUM('a')) + 1
+            return Math.min(distanceA, distanceB)
+        }
+
+        let str = 'abc'
+        let times = 0
+        str.split("").forEach((item, index) => {
+            if(index < str.length - 1){
+                // console.log(`${item} ${str[index+1]}`,calDistance(item, str[index+1]))
+                times += calDistance(item, str[index+1])
+            }
+        })
+        console.log(times)
+
+    </script>
+</body>
+</html>

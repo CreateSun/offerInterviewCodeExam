@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        Array.prototype.last = function() {
+            return this[this.length - 1]
+        }
+        
+        // 将JQKA转为对应的数字
+        let handlePoker = (pokeList) => {
+            function temp(char) {
+                switch(char) {
+                    case 'J': return 11;break;
+                    case 'Q': return 12;break;
+                    case 'K': return 13;break;
+                    case 'A': return 14;break;
+                    case 'B': return 15;break; // 小王
+                    case 'C': return 16;break; // 大王
+                }
+            }
+            return pokeList.map(item => {
+                if(isNaN(parseInt(item))) {
+                    return temp(item)
+                } else return parseInt(item)
+            })
+        }
+        // 计算顺子
+        let getShunziList = (pokeList) => {
+            let shunziList = []
+            function check(shunzi) {
+                // 检验顺子的合法性，长度>=5&&<=12，不能包含2，不能有大小王(B、C)
+                if(shunzi.length < 5) return false
+                else if(shunzi.includes(2)) return false
+                // else if(shunzi.includes(13)||shunzi.includes(14)) return false
+                return true
+            }
+            pokeList.forEach((item, index) => {
+                let shunzi = [item]
+                for(let i = index + 1; i < pokeList.length; i++) { // 从当前索引向后寻找顺子
+                    if(shunzi.last()+1 !== pokeList[i]) break;
+                    else shunzi.push(pokeList[i])
+                }
+                // console.log(shunzi)
+                if(check(shunzi)) shunziList.push(shunzi) // 顺子合法，放入队列
+            });
+            return shunziList
+        }
+        // 获取当前对手手牌
+        let getCounterPokeList = (hand, outen) => {
+            let total = Array(15).fill(4)
+            total[13] = 1
+            total[14] = 1
+            hand.forEach(item => {
+                total[item-2] -= 1
+            })
+            outen.forEach(item => {
+                total[item-2] -= 1
+            })
+            let res = []
+            total.forEach((item, index) => {
+                let timer = item
+                // while(timer) {
+                //     timer--
+                //     res.push(index+2)
+                // }
+                item > 0 && (index!==13&&index!==14) ? res.push(index+2) : null
+            })
+            return res
+        }
+        // 筛选最大的顺子
+        let getBiggest = (list) => {
+            let sumList = Array(list.length).fill(0)
+            list.forEach((queue, index) => {
+                sumList[index] = queue.reduce((pre, curr) => pre + curr)
+            })
+            let biggest = Math.max(...sumList)
+            return list[sumList.indexOf(biggest)]
+        }
+        // 输出顺子
+        let print = (shunzi) => {
+            function temp(char) {
+                switch(char) {
+                    case 11: return 'J';break;
+                    case 12: return 'Q';break;
+                    case 13: return 'K';break;
+                    case 14: return 'A';break;
+                    case 15: return 'B';break; // 小王
+                    case 16: return 'C';break; // 大王
+                    default: return char
+                }
+            }
+            let str = ''
+            strList = shunzi.map(item => {
+                return temp(item)
+            })
+            str = strList.join("-")
+            console.log(str)
+            return str
+        }
+        let str1 = '3-3-3-3-4-4-5-5-6-7-8-9-10-J-Q-K-A'
+        let str2 = '4-5-6-7-8-8-8'
+        
+        let hand = handlePoker(str1.split("-"))
+        let outen = str2.split("-")
+        let counterPokeList = getCounterPokeList(hand, outen)
+        console.log(counterPokeList)
+        let list = getShunziList(counterPokeList)
+
+        let result = getBiggest(list)
+        print(result)
+
+    </script>
+</body>
+</html>

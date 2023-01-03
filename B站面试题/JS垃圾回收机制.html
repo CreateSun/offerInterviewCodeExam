@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JS垃圾回收机制</title>
+</head>
+<body>
+<main style="width: 896px;margin: 0 auto;">
+    <h1>JS 垃圾回收机制</h1>
+    <em>JS 有自己的垃圾回收机制称为：Garbage Collection (<strong>GC机制</strong>)</em>
+    <p><strong>全停顿</strong>：垃圾回收与应用逻辑按照时间片顺序交替进行</p>
+    <p><strong>回收对象：</strong>对象不再引用、对象不能从根上访问到</p>
+    <h2>常用算法</h2>
+    <ol>
+        <li>引用计数（早期使用，无法解决循环引用）</li>
+        <li>标记清除（导致空间碎片化）</li>
+        <li>标记整理（先整理，再清除，效率较低）</li>
+        <li>增量标记（拆分全停顿，微观上细化）</li>
+    </ol>
+    <h3>V8回收策略：分代回收（新生代、老生代）</h3>
+    <h2>性能优化</h2>
+    <ol>
+        <li>避免使用全局变量</li>
+        <li>避免多层嵌套循环</li>
+        <li>减少数据读取次数</li>
+        <li>减少循环体活动</li>
+        <li>事件绑定优化</li>
+        <li>避开闭包“陷阱”</li>
+    </ol>
+</main>
+
+<script>
+    
+</script>
+</body>
+</html>

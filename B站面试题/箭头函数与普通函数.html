@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>箭头函数与普通函数</title>
+</head>
+
+<body>
+    <p></p>
+    <pre>
+        var obj = {
+            birth: 1990,
+            getAge: function () {
+                var b = this.birth; // 1990
+                var fn = () => {
+                    return this.birth; // 箭头函数解决了匿名函数在全局执行导致this指向windows的问题
+                };
+                return fn();
+            }
+        };
+    </pre>
+</body>
+
+<script>
+    let obj = {
+        text: "Hello World",
+        getText:  () => {
+            console.log(this.text)
+        }
+    }
+    let func = obj.getText() // Window    undefined
+    // func() // Window    undefined
+
+</script>
+
+</html>

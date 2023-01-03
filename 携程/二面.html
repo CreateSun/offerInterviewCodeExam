@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        var a = 3
+        b = {
+            a: 4,
+            getA: function() {
+                this.a = 5
+                return function() {
+                    return this.a
+                }
+            }
+        }
+        var c = b.getA()()  // 修改对c的赋值语句，使其能够获取到3,4,5
+        console.log(c)
+    </script>
+</body>
+</html>

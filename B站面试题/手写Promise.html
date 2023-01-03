@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>手写Promise</title>
+</head>
+
+<body>
+    <script>
+        function resolvePromise(promise2, x, resolve, reject) {
+            if (x === promise2) {
+                return reject(new TypeError('Chaining cycle detected for promise'))
+            }
+            let called;
+            if (x != null && (typeof (x) === 'object' || typeof (x) === 'function')) {
+                try {
+                    let then = x.then;
+                    if (typeof then === 'function') {
+                        then.call(x, y => {
+                            if (called) return;
+                            called = true;
+                            resolvePromise(promise2, y, resolve, reject)
+                        }, err => {
+                            if (called) return;
+                            called = true;
+                            reject(err)
+                        })
+                    } else {
+                        resolve(x)
+                    }
+                } catch (error) {
+                    if (called) return;
+                    called = true;
+                    reject(error)
+                }
+            } else {
+                resolve(x)
+            }
+        }
+        class Commit {
+            constructor(executor) {
+                this.state = 'pending';
+                this.value = undefined;
+                this.reason = undefined;
+
+                this.onResolvedCallbacks = []
+                this.onRejectedCallbacks = []
+                let resolve = (value) => {
+                    if (this.state === 'pending') {
+                        this.state = 'fullfilled'
+                        this.value = value
+                        this.onResolvedCallbacks.forEach(fn => fn())
+                    }
+                }
+                let reject = (reason) => {
+                    if (this.state === 'pending') {
+                        this.state = 'rejected'
+                        this.reason = reason
+                        this.onRejectedCallbacks.forEach(fn => fn())
+                    }
+                }
+                try {
+                    executor(resolve, reject);
+                } catch (error) {
+                    reject(error)
+                }
+            }
+            then(onFullfilled, onRejected) {
+                // console.log("当前状态: "+ this.state, this.value, this.reason)
+                onFullfilled = typeof onFullfilled === 'function' ? onFullfilled : v => v
+                onRejected = typeof onRejected === 'function' ? onRejected : v => { throw v}
+                let promise2 = new Commit((resolve, reject) => {
+                    if (this.state === 'fullfilled') {
+                        setTimeout(() => {
+                            try {
+                                let x = onFullfilled(this.value)
+                                resolvePromise(promise2, x, resolve, reject);
+                            } catch (error) {
+                                reject(error)
+                            }
+                        }, 0)
+                    }
+                    if (this.state === 'rejected') {
+                        setTimeout(() => {
+                            try {
+                                let x = onRejected(this.reason)
+                                resolvePromise(promise2, x, resolve, reject);
+                            } catch (error) {
+                                reject(error)
+                            }
+                        }, 0)
+                    }
+                    if (this.state === 'pending') {
+                        this.onResolvedCallbacks.push(() => {
+                            setTimeout(() => {
+                                try {
+                                    let x = onFullfilled(this.value)
+                                    resolvePromise(promise2, x, resolve, reject)
+                                } catch (error) {
+                                    reject(error)
+                                }
+                            }, 0)
+                        })
+                        this.onRejectedCallbacks.push(() => {
+                            setTimeout(() => {
+                                try {
+                                    let x = onRejected(this.reason)
+                                    resolvePromise(promise2, x, resolve, reject)
+                                } catch (error) {
+                                    reject(error)
+                                }
+                            }, 0)
+                        })
+                    }
+                })
+                return promise2
+            }
+            catch(fn) {
+                // fn("catch")
+                // console.log(this)
+                return this.then(null, fn);
+            }
+        }
+        console.log('第一步')
+        let pro = new Commit((resolve, reject) => {
+            console.log('第二步')
+            reject('This is my Promise, It\'s success')
+        })
+        console.log('第三步')
+        pro.then(res => {
+            console.log(res)
+            return '第二个then: "' + res + '"'
+        }).then(res => {
+            console.log(res)
+        }).catch(err => console.error("Error log:" + err))
+        console.log('第四步')
+    </script>
+</body>
+
+</html>
